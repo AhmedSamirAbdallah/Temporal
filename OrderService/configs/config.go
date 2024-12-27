@@ -6,11 +6,20 @@ import (
 )
 
 type Config struct {
-	MongoURI string
-	DBName   string
+	ServerPort     string
+	MongoURI       string
+	DBName         string
+	CollectionName string
 }
 
 func LoadConfig() *Config {
+
+	serverPort := os.Getenv("SERVER_PORT")
+	if serverPort == "" {
+		serverPort = "6000"
+		log.Println("SERVER_PORT not set, using default:", serverPort)
+	}
+
 	mongoURI := os.Getenv("MONGO_URI")
 	if mongoURI == "" {
 		mongoURI = "mongodb://localhost:27017"
@@ -23,8 +32,16 @@ func LoadConfig() *Config {
 		log.Println("DB_NAME not set, using default:", dbName)
 	}
 
+	collectionName := os.Getenv("COLLERCTION_NAME")
+	if collectionName == "" {
+		collectionName = "order"
+		log.Println("COLLERCTION_NAME not set, using default:", collectionName)
+	}
+
 	return &Config{
-		MongoURI: mongoURI,
-		DBName:   dbName,
+		ServerPort:     serverPort,
+		MongoURI:       mongoURI,
+		DBName:         dbName,
+		CollectionName: collectionName,
 	}
 }
