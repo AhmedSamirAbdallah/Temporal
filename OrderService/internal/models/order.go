@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 // OrderItem represents a single item in an order
 type OrderItem struct {
 	ProductID string  `bson:"productId" json:"productId"` // The ID of the product
@@ -10,7 +12,9 @@ type OrderItem struct {
 
 // Order represents the entire order which can have multiple items
 type Order struct {
-	BaseModel
+	ID          string      `bson:"_id,omitempty" json`
+	CreatedAt   time.Time   `bson:"createdAt"`
+	UpdatedAt   time.Time   `bson:"updatedAt"`
 	OrderID     string      `bson:"orderId" json:"orderId"`         // The ID of the order
 	CustomerID  string      `bson:"customerId" json:"customerId"`   // The ID of the customer
 	Status      string      `bson:"status" json:"status"`           // Order status (e.g., "pending", "completed")
